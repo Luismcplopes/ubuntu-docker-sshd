@@ -1,6 +1,7 @@
-FROM ubuntu
+#FROM ubuntu
+FROM luismcplopes/docker-ubuntu
 
-MAINTAINER Donald Simpson <donaldsimpson@gmail.com>
+MAINTAINER github.com Luismcplopes
 
 RUN apt-get update && apt-get install -y openssh-server
 
