@@ -1,32 +1,15 @@
-#
-# Ubuntu Dockerfile
-#
-# https://github.com/dockerfile/ubuntu
-#
+FROM ubuntu
 
-# Pull base image.
-FROM ubuntu:14.04
+MAINTAINER Donald Simpson <donaldsimpson@gmail.com>
 
-# Install.
-RUN \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y build-essential && \
-  apt-get install -y software-properties-common && \
-  apt-get install -y byobu curl git htop man unzip vim wget && \
-  rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openssh-server
 
-# Add files.
-ADD root/.bashrc /root/.bashrc
-ADD root/.gitconfig /root/.gitconfig
-ADD root/.scripts /root/.scripts
+RUN mkdir -p /var/run/sshd
+ONBUILD ADD sshd_config /etc/ssh/sshd_config
 
-# Set environment variables.
-ENV HOME /root
+CMD /usr/sbin/sshd -D
 
-# Define working directory.
-WORKDIR /root
+USER nobody
+WORKDIR /tmp
 
-# Define default command.
-CMD ["bash"]
+EXPOSE 2222
