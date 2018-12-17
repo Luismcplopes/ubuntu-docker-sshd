@@ -1,0 +1,17 @@
+sudo: true
+dist: trusty
+
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - docker build -t ubuntu-docker-sshd .
+      - docker images
+      - docker tag docker-ubuntu luismcplopes/ubuntu-docker-sshd
+
+    - stage: test
+      script: 
+      - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/os-*release
+      - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/apt/sources.list
+  
+  
