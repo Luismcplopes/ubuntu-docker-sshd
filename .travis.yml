@@ -7,7 +7,7 @@ jobs:
       script:
       - docker build -t ubuntu-docker-sshd .
       - docker images
-      - docker tag docker-ubuntu luismcplopes/ubuntu-docker-sshd
+      - docker tag ubuntu-docker-sshd luismcplopes/ubuntu-docker-sshd
 
     - stage: test
       script: 
