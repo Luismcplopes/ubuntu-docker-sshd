@@ -15,10 +15,9 @@ install:
   
 
 before_script:
-  - pip install mock
+
 
 script:
-  - docker ps | grep -o ubuntu-sshd 
   - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/os-*release
   - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/apt/sources.list
  
