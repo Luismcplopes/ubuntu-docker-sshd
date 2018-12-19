@@ -23,3 +23,12 @@ script:
   - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/apt/sources.list
  
 after_success:
+
+
+notifications: 
+  email: true
+  slack:
+    rooms:
+      - ${GH_TOKEN}
+    on_success: change # default: always
+    on_failure: always # default: always  
