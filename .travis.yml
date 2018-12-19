@@ -26,7 +26,7 @@ after_success:
 notifications: 
   slack:
     rooms:
-      - ${GH_TOKEN}
+      - ${SLACK_TOKEN}
     on_success: change # default: always
     on_failure: always # default: always  
 
