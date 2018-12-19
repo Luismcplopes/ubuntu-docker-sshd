@@ -1,17 +1,25 @@
 sudo: true
 dist: trusty
 
-jobs:
-  include:
-    - stage: build docker image
-      script:
-      - docker build -t ubuntu-docker-sshd .
-      - docker images
-      - docker tag ubuntu-docker-sshd luismcplopes/ubuntu-docker-sshd
+language: python
+python:
+  - 2.7
 
-    - stage: test
-      script: 
-      - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/os-*release
-      - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/apt/sources.list
-  
-  
+services:
+  - docker
+
+install:
+  - docker build -t ubuntu-docker-sshd .
+  - docker images
+  - docker tag ubuntu-docker-sshd luismcplopes/ubuntu-docker-sshd
+  - docker run -d -p 127.0.0.1:22:2222 --name ubuntu-sshd luismcplopes/ubuntu-docker-sshd
+
+before_script:
+  - pip install mock
+
+script:
+  - docker ps | grep -q ubuntu-sshd 
+  - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/os-*release
+  - docker run --rm luismcplopes/ubuntu-docker-sshd cat /etc/apt/sources.list
+ 
+after_success:
